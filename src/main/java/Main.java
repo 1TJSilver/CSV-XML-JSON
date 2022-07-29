@@ -4,10 +4,6 @@ import com.opencsv.CSVReader;
 import com.opencsv.bean.ColumnPositionMappingStrategy;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -37,8 +33,7 @@ public class Main {
         String json1 = listToJson(parseXML("data1.xml"));
         writeStringFile(json1, "data1.json");
          */
-        // #3 задание 
-        printList(jsonToList(readString("data.json"), 2));
+        String jsonTxt = readString("data.json");
 
     }
     public static List<Employee> parseCSV(String[] columnMapping, String filename){
@@ -99,27 +94,18 @@ public class Main {
         return list;
     }
     public static String readString (String filename){
-        String text = null;
+        StringBuilder sb = new StringBuilder();
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))){
-            text = reader.readLine();
+            sb.append(reader.read());
         } catch (IOException  ex){
             System.out.println(ex.getMessage());
         }
-        return text;
+        return sb.toString();
     }
-    public static List<Employee> jsonToList (String json, int count){
+    public static List<Employee> jsonToList (String json){
         GsonBuilder  builder = new GsonBuilder();
         Gson gson = builder.create();
-        JSONParser jsonParser = new JSONParser();
-        try {
-            Object obj = jsonParser.parse(json);
-            JSONObject jsonObj = (JSONObject) obj;
-            JSONArray jsonArray;
-        } catch (ParseException e) {
-
-        }
-
-        return new ArrayList<>();
+        return gson.fromJson(json, List.class);
     }
     public static void printList (List<Employee> list){
         for (Employee employe : list) {
