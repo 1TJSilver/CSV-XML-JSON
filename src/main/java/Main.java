@@ -33,7 +33,7 @@ public class Main {
         String json1 = listToJson(parseXML("data1.xml"));
         writeStringFile(json1, "data1.json");
          */
-        String jsonTxt = readString("data.json");
+        printList(jsonToList(readString("data.json")));
 
     }
     public static List<Employee> parseCSV(String[] columnMapping, String filename){
@@ -94,22 +94,23 @@ public class Main {
         return list;
     }
     public static String readString (String filename){
-        StringBuilder sb = new StringBuilder();
+        String text = null;
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))){
-            sb.append(reader.read());
+            text = reader.readLine();
         } catch (IOException  ex){
             System.out.println(ex.getMessage());
         }
-        return sb.toString();
+        return text;
     }
     public static List<Employee> jsonToList (String json){
         GsonBuilder  builder = new GsonBuilder();
         Gson gson = builder.create();
-        return gson.fromJson(json, List.class);
+        List<Employee> list = (List<Employee>) gson.fromJson(json, List.class);
+        return list;
     }
     public static void printList (List<Employee> list){
-        for (Employee employe : list) {
-            System.out.println(employe.toString());
+        for (Employee employee : list) {
+            System.out.println(employee.toString());
         }
     }
 }
