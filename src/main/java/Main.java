@@ -4,6 +4,11 @@ import com.opencsv.CSVReader;
 import com.opencsv.bean.ColumnPositionMappingStrategy;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+import com.google.gson.reflect.TypeToken;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -13,8 +18,12 @@ import org.w3c.dom.Document;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import java.awt.*;
 import java.io.*;
+import java.lang.reflect.Type;
+import java.net.Proxy;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -33,7 +42,8 @@ public class Main {
         String json1 = listToJson(parseXML("data1.xml"));
         writeStringFile(json1, "data1.json");
          */
-        printList(jsonToList(readString("data.json")));
+        // #3 задание
+        //printList(jsonToList(readString("data.json")));
 
     }
     public static List<Employee> parseCSV(String[] columnMapping, String filename){
@@ -105,8 +115,11 @@ public class Main {
     public static List<Employee> jsonToList (String json){
         GsonBuilder  builder = new GsonBuilder();
         Gson gson = builder.create();
-        List<Employee> list = (List<Employee>) gson.fromJson(json, List.class);
-        return list;
+
+        Type userListType = new TypeToken<ArrayList<Employee>>(){}.getType();
+
+        List<Employee> userArray = gson.fromJson(json, userListType);
+        return userArray;
     }
     public static void printList (List<Employee> list){
         for (Employee employee : list) {

@@ -19,6 +19,6 @@ public class Employee {
     @Override
     public String toString() {
         return "Id: " + id + "\nFirst Name: " + firstName + "\nLast Name: " + lastName
-                 + "\nAge: " + age + "\nCountry: " + country;
+                 + "\nAge: " + age + "\nCountry: " + country + "\n";
     }
 }
